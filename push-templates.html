@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Push-шаблоны · Invictus</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #09090B; font-family: 'DM Sans', -apple-system, sans-serif; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const SEGMENTS = [
+  {
+    id: "fan_veteran",
+    activity: "Фанат (9+)",
+    loyalty: "Ветеран (1+ г.)",
+    count: 754,
+    color: "#7C3AED",
+    gradient: "linear-gradient(135deg, #7C3AED 0%, #4C1D95 100%)",
+    icon: "💎",
+    label: "Золотой VIP",
+    stats: { visits: 135, cal: 73000, hours: 219, months: 14, everest: 7, marathons: 28, kgFat: 9.5, days: 9 },
+    pushTitle: "👑 {Имя}, вы — легенда Invictus",
+    pushBody: "За {months} месяцев — {visits} тренировок. Это {hours} часов в зале и {cal}+ сожжённых калорий. Вы буквально поднялись на Эверест {everest} раз. Такие не уходят навсегда.",
+    pushCTA: "Забрать VIP-возвращение →",
+    vars: { months: "14", visits: "135", hours: "219", cal: "73 000", everest: "7" },
+    psychology: "Эго + статус. Они знают, что были лучшими. Надо напомнить им их величие конкретными цифрами.",
+  },
+  {
+    id: "fan_regular",
+    activity: "Фанат (9+)",
+    loyalty: "Регуляр (6-12 мес)",
+    count: 1926,
+    color: "#6D28D9",
+    gradient: "linear-gradient(135deg, #6D28D9 0%, #4338CA 100%)",
+    icon: "🔥",
+    label: "Лояльный фанат",
+    stats: { visits: 95, cal: 56000, hours: 169, months: 12, marathons: 22, kgFat: 7.3, days: 7 },
+    pushTitle: "🔥 {Имя}, 95 тренировок — не шутка",
+    pushBody: "За год у нас вы сожгли {cal} калорий. Это {marathons} марафонов. 7 полных суток вы провели в зале. Ваш ритм ещё в наших стенах.",
+    pushCTA: "Вернуть свой темп →",
+    vars: { cal: "56 000", marathons: "22" },
+    psychology: "Конкретика + ностальгия по ритму. Они скучают по режиму. Показать масштаб их усилий.",
+  },
+  {
+    id: "fan_novice",
+    activity: "Фанат (9+)",
+    loyalty: "Новичок (2-6 мес)",
+    count: 3324,
+    color: "#8B5CF6",
+    gradient: "linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)",
+    icon: "🚀",
+    label: "Зажёгся и ушёл",
+    stats: { visits: 37, cal: 19000, hours: 58, months: 3.5, marathons: 7, kgFat: 2.5, days: 2 },
+    pushTitle: "⚡ {Имя}, 37 тренировок за 3 месяца — это мощь",
+    pushBody: "Вы ходили чаще, чем 90% наших клиентов. {cal} калорий, {marathons} марафонов. Вы только разогнались — зачем тормозить?",
+    pushCTA: "Продолжить разгон →",
+    vars: { cal: "19 000", marathons: "7" },
+    psychology: "FOMO + незавершённость. Они были на взлёте. Показать, что остановились на самом интересном месте.",
+  },
+  {
+    id: "high_veteran",
+    activity: "Высокая (6-8)",
+    loyalty: "Ветеран (1+ г.)",
+    count: 1979,
+    color: "#059669",
+    gradient: "linear-gradient(135deg, #059669 0%, #047857 100%)",
+    icon: "🏆",
+    label: "Надёжный ветеран",
+    stats: { visits: 82, cal: 47000, hours: 143, months: 14, everest: 5, marathons: 18, kgFat: 6.2, days: 6 },
+    pushTitle: "🏆 {Имя}, 82 тренировки и {months} месяцев с нами",
+    pushBody: "Вы сожгли {cal} ккал — как 5 подъёмов на Эверест. 6 полных суток в зале {club}. Вы были частью команды. Мы всё ещё тут.",
+    pushCTA: "Вернуться в команду →",
+    vars: { cal: "47 000", months: "14", club: "[клуб]" },
+    psychology: "Принадлежность + достижения. Долго были частью сообщества. Триггер — «команда скучает».",
+  },
+  {
+    id: "high_regular",
+    activity: "Высокая (6-8)",
+    loyalty: "Регуляр (6-12 мес)",
+    count: 4886,
+    color: "#0D9488",
+    gradient: "linear-gradient(135deg, #0D9488 0%, #0F766E 100%)",
+    icon: "💪",
+    label: "Сильный регуляр",
+    stats: { visits: 58, cal: 37000, hours: 111, months: 12, marathons: 14, kgFat: 4.8, days: 5 },
+    pushTitle: "💪 {Имя}, ваши 58 тренировок никуда не делись",
+    pushBody: "{cal} сожжённых калорий — это {kgFat} кг чистого жира. Вы ходили стабильно {perWeek} раз в неделю. Тело помнит. Мы тоже.",
+    pushCTA: "Напомнить телу →",
+    vars: { cal: "37 000", kgFat: "4.8", perWeek: "~2" },
+    psychology: "Физический результат + стабильность. Показать конкретный эффект в кг жира — это личное и ощутимое.",
+  },
+  {
+    id: "high_novice",
+    activity: "Высокая (6-8)",
+    loyalty: "Новичок (2-6 мес)",
+    count: 8535,
+    color: "#14B8A6",
+    gradient: "linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)",
+    icon: "⚡",
+    label: "Активный новичок",
+    stats: { visits: 25, cal: 12000, hours: 36, months: 3.5, marathons: 5, kgFat: 1.6, days: 2 },
+    pushTitle: "⚡ {Имя}, за 3 месяца — 25 тренировок",
+    pushBody: "Вы были в топ-30% по активности в {club}. {cal} калорий, {days} полных дня в зале. Это было только начало — и вы это знаете.",
+    pushCTA: "Вернуться в топ →",
+    vars: { cal: "12 000", days: "2", club: "[клуб]" },
+    psychology: "Социальное сравнение + рейтинг. «Вы были в топе» — мощный эго-триггер для активных новичков.",
+  },
+  {
+    id: "mid_veteran",
+    activity: "Средняя (3-5)",
+    loyalty: "Ветеран (1+ г.)",
+    count: 3409,
+    color: "#D97706",
+    gradient: "linear-gradient(135deg, #D97706 0%, #B45309 100%)",
+    icon: "⭐",
+    label: "Верный казуал",
+    stats: { visits: 37, cal: 27000, hours: 83, months: 14, everest: 3, marathons: 11, kgFat: 3.6, days: 3 },
+    pushTitle: "⭐ {Имя}, {months} месяцев вместе — это история",
+    pushBody: "37 тренировок, {cal} калорий, {marathons} марафонов. Вы были с нами дольше, чем 89% клиентов. Такая лояльность заслуживает особых условий.",
+    pushCTA: "Узнать своё спец-условие →",
+    vars: { months: "14", cal: "27 000", marathons: "11" },
+    psychology: "Лояльность + эксклюзивность. Они ценят постоянство. Триггер — «вы особенный, вот вам особый оффер».",
+  },
+  {
+    id: "mid_regular",
+    activity: "Средняя (3-5)",
+    loyalty: "Регуляр (6-12 мес)",
+    count: 7889,
+    color: "#EA580C",
+    gradient: "linear-gradient(135deg, #EA580C 0%, #C2410C 100%)",
+    icon: "📊",
+    label: "Стабильный средний",
+    stats: { visits: 28, cal: 20000, hours: 61, months: 12, marathons: 8, kgFat: 2.6, days: 3 },
+    pushTitle: "📊 {Имя}, ваш год в цифрах: 28 тренировок, {cal} ккал",
+    pushBody: "Это {marathons} марафонов и {kgFat} кг сожжённого жира. Раз в неделю, стабильно, целый год. А что если добавить ещё один день? Результат удвоится.",
+    pushCTA: "Удвоить результат →",
+    vars: { cal: "20 000", marathons: "8", kgFat: "2.6" },
+    psychology: "Рациональность + апгрейд. Эти люди стабильные и прагматичные. Показать ROI их усилий и потенциал роста.",
+  },
+  {
+    id: "mid_novice",
+    activity: "Средняя (3-5)",
+    loyalty: "Новичок (2-6 мес)",
+    count: 13924,
+    color: "#F59E0B",
+    gradient: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+    icon: "💡",
+    label: "Перспективный",
+    stats: { visits: 12, cal: 6300, hours: 19, months: 3, marathons: 2, kgFat: 0.8, days: 1 },
+    pushTitle: "💡 {Имя}, 12 тренировок — это уже привычка",
+    pushBody: "Учёные говорят: 12 повторений формируют привычку. Вы были на пороге. {cal} калорий не сгорели зря — но без продолжения эффект обнулится через 8 недель.",
+    pushCTA: "Не обнулять →",
+    vars: { cal: "6 300" },
+    psychology: "Loss aversion + наука. Самый массовый сегмент. Страх потерять то, что уже вложили — главный мотиватор.",
+  },
+];
+
+function PhonePreview({ segment }) {
+  return (
+    <div style={{
+      width: 320,
+      background: "#1C1C1E",
+      borderRadius: 20,
+      padding: "12px 0",
+      border: "1px solid #333",
+      flexShrink: 0,
+    }}>
+      <div style={{ display: "flex", justifyContent: "space-between", padding: "0 20px 8px", fontSize: 11, color: "#999" }}>
+        <span>9:41</span>
+        <span>📶 🔋</span>
+      </div>
+      <div style={{
+        margin: "8px 12px",
+        background: "rgba(255,255,255,0.12)",
+        borderRadius: 16,
+        padding: "14px 16px",
+        backdropFilter: "blur(20px)",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <div style={{
+            width: 22, height: 22, borderRadius: 6,
+            background: segment.gradient,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 10, color: "#fff", fontWeight: 700,
+          }}>I</div>
+          <span style={{ fontSize: 11, color: "#999", fontWeight: 600 }}>INVICTUS</span>
+          <span style={{ fontSize: 10, color: "#666", marginLeft: "auto" }}>сейчас</span>
+        </div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 5, lineHeight: 1.3 }}>
+          {segment.pushTitle.replace("{Имя}", "Арман")}
+        </div>
+        <div style={{ fontSize: 12.5, color: "#ccc", lineHeight: 1.45 }}>
+          {segment.pushBody
+            .replace("{months}", segment.vars.months || "")
+            .replace("{visits}", segment.vars.visits || "")
+            .replace("{hours}", segment.vars.hours || "")
+            .replace("{cal}", segment.vars.cal || "")
+            .replace("{everest}", segment.vars.everest || "")
+            .replace("{marathons}", segment.vars.marathons || "")
+            .replace("{kgFat}", segment.vars.kgFat || "")
+            .replace("{perWeek}", segment.vars.perWeek || "")
+            .replace("{days}", segment.vars.days || "")
+            .replace("{club}", "Invictus GO Oskemen")
+          }
+        </div>
+        <div style={{
+          marginTop: 10,
+          fontSize: 12,
+          fontWeight: 700,
+          color: segment.color,
+          letterSpacing: 0.3,
+        }}>
+          {segment.pushCTA}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [selected, setSelected] = useState(0);
+  const seg = SEGMENTS[selected];
+
+  return (
+    <div style={{
+      fontFamily: "'DM Sans', -apple-system, sans-serif",
+      background: "#09090B",
+      color: "#FAFAFA",
+      minHeight: "100vh",
+      padding: "24px 20px",
+      maxWidth: 960,
+      margin: "0 auto",
+    }}>
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 24, fontWeight: 900, letterSpacing: -0.5 }}>PUSH-ШАБЛОНЫ</span>
+          <span style={{ fontSize: 10, background: "#7C3AED", color: "#fff", padding: "3px 10px", borderRadius: 20, fontWeight: 700 }}>
+            9 СЕГМЕНТОВ
+          </span>
+        </div>
+        <div style={{ fontSize: 12, color: "#71717A" }}>
+          Data-driven пуши · Переменные подставляются из данных клиента · Превью уведомления справа
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 20, overflowX: "auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "120px 1fr 1fr 1fr", gap: 4, fontSize: 11, minWidth: 500 }}>
+          <div style={{ padding: 6, color: "#52525B", fontSize: 10, fontWeight: 600 }}>АКТИВНОСТЬ ↓</div>
+          <div style={{ padding: 6, color: "#A78BFA", fontWeight: 700, textAlign: "center" }}>Ветеран (1+ г.)</div>
+          <div style={{ padding: 6, color: "#34D399", fontWeight: 700, textAlign: "center" }}>Регуляр (6-12)</div>
+          <div style={{ padding: 6, color: "#60A5FA", fontWeight: 700, textAlign: "center" }}>Новичок (2-6)</div>
+          
+          <div style={{ padding: 6, color: "#8B5CF6", fontWeight: 700, fontSize: 11 }}>Фанат (9+)</div>
+          {[0, 1, 2].map(i => (
+            <button key={i} onClick={() => setSelected(i)} style={{
+              padding: "8px 6px", borderRadius: 8,
+              border: selected === i ? `2px solid ${SEGMENTS[i].color}` : "2px solid transparent",
+              background: selected === i ? `${SEGMENTS[i].color}22` : "#18181B",
+              color: "#fff", cursor: "pointer", textAlign: "center", fontSize: 12, fontWeight: 600,
+            }}>
+              {SEGMENTS[i].icon} {SEGMENTS[i].count.toLocaleString()}
+            </button>
+          ))}
+          
+          <div style={{ padding: 6, color: "#10B981", fontWeight: 700, fontSize: 11 }}>Высокая (6-8)</div>
+          {[3, 4, 5].map(i => (
+            <button key={i} onClick={() => setSelected(i)} style={{
+              padding: "8px 6px", borderRadius: 8,
+              border: selected === i ? `2px solid ${SEGMENTS[i].color}` : "2px solid transparent",
+              background: selected === i ? `${SEGMENTS[i].color}22` : "#18181B",
+              color: "#fff", cursor: "pointer", textAlign: "center", fontSize: 12, fontWeight: 600,
+            }}>
+              {SEGMENTS[i].icon} {SEGMENTS[i].count.toLocaleString()}
+            </button>
+          ))}
+          
+          <div style={{ padding: 6, color: "#F59E0B", fontWeight: 700, fontSize: 11 }}>Средняя (3-5)</div>
+          {[6, 7, 8].map(i => (
+            <button key={i} onClick={() => setSelected(i)} style={{
+              padding: "8px 6px", borderRadius: 8,
+              border: selected === i ? `2px solid ${SEGMENTS[i].color}` : "2px solid transparent",
+              background: selected === i ? `${SEGMENTS[i].color}22` : "#18181B",
+              color: "#fff", cursor: "pointer", textAlign: "center", fontSize: 12, fontWeight: 600,
+            }}>
+              {SEGMENTS[i].icon} {SEGMENTS[i].count.toLocaleString()}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: 300 }}>
+          <div style={{
+            background: "#18181B", borderRadius: 14, padding: "18px 20px", marginBottom: 12,
+            borderLeft: `4px solid ${seg.color}`,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+              <span style={{ fontSize: 24 }}>{seg.icon}</span>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 800 }}>{seg.label}</div>
+                <div style={{ fontSize: 12, color: "#71717A" }}>{seg.activity} × {seg.loyalty}</div>
+              </div>
+              <div style={{ marginLeft: "auto", fontSize: 20, fontWeight: 900, color: seg.color }}>
+                {seg.count.toLocaleString()}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginBottom: 12 }}>
+            {[
+              { l: "Тренировок", v: seg.stats.visits },
+              { l: "Калории", v: `${(seg.stats.cal/1000).toFixed(0)}K` },
+              { l: "Часов", v: seg.stats.hours },
+              { l: "Месяцев", v: seg.stats.months },
+            ].map(s => (
+              <div key={s.l} style={{ background: "#18181B", borderRadius: 10, padding: "10px 12px", textAlign: "center" }}>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>{s.v}</div>
+                <div style={{ fontSize: 10, color: "#71717A" }}>{s.l}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: "#18181B", borderRadius: 14, padding: "16px 20px", marginBottom: 12 }}>
+            <div style={{ fontSize: 11, color: "#71717A", fontWeight: 700, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>
+              Заголовок
+            </div>
+            <div style={{
+              fontSize: 14, fontWeight: 700, color: "#fff", padding: "10px 14px",
+              background: "#27272A", borderRadius: 8, marginBottom: 14, lineHeight: 1.4,
+            }}>
+              {seg.pushTitle}
+            </div>
+            <div style={{ fontSize: 11, color: "#71717A", fontWeight: 700, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>
+              Текст
+            </div>
+            <div style={{
+              fontSize: 13, color: "#D4D4D8", padding: "10px 14px",
+              background: "#27272A", borderRadius: 8, marginBottom: 14, lineHeight: 1.55,
+            }}>
+              {seg.pushBody}
+            </div>
+            <div style={{ fontSize: 11, color: "#71717A", fontWeight: 700, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>
+              CTA
+            </div>
+            <div style={{
+              fontSize: 14, fontWeight: 800, color: seg.color, padding: "10px 14px",
+              background: "#27272A", borderRadius: 8,
+            }}>
+              {seg.pushCTA}
+            </div>
+          </div>
+
+          <div style={{
+            background: "#18181B", borderRadius: 14, padding: "14px 18px",
+            borderLeft: `3px solid ${seg.color}`,
+          }}>
+            <div style={{ fontSize: 11, color: "#71717A", fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>
+              🧠 Психология
+            </div>
+            <div style={{ fontSize: 13, color: "#A1A1AA", lineHeight: 1.55 }}>
+              {seg.psychology}
+            </div>
+          </div>
+        </div>
+
+        <PhonePreview segment={seg} />
+      </div>
+
+      <div style={{ marginTop: 24, background: "#18181B", borderRadius: 14, padding: "18px 20px" }}>
+        <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: "#D4D4D8" }}>📋 Переменные для подстановки из БЧК</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 8, fontSize: 12 }}>
+          {[
+            { v: "{Имя}", s: "fio → первое слово" },
+            { v: "{months}", s: "duration_days / 30" },
+            { v: "{visits}", s: "abon_visits" },
+            { v: "{cal}", s: "abon_visits × 500" },
+            { v: "{hours}", s: "abon_visits × 1.5" },
+            { v: "{club}", s: "club_name" },
+            { v: "{marathons}", s: "cal / 2600" },
+            { v: "{everest}", s: "cal / 10000" },
+            { v: "{kgFat}", s: "cal / 7700" },
+            { v: "{days}", s: "hours / 24" },
+            { v: "{perWeek}", s: "avg_visits / 4.3" },
+          ].map(item => (
+            <div key={item.v} style={{ display: "flex", justifyContent: "space-between", padding: "6px 10px", background: "#27272A", borderRadius: 6 }}>
+              <code style={{ color: "#A78BFA", fontWeight: 700 }}>{item.v}</code>
+              <span style={{ color: "#71717A" }}>{item.s}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
