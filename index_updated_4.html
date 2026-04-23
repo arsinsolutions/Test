@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Invictus Fitness — Премиальные фитнес-клубы в Алматы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#111010;
+  --bg2:#0a0a0a;
+  --bg3:#181818;
+  --bg4:#1f1f1f;
+  --text:#ffffff;
+  --text-dim:#888;
+  --text-mid:#bbb;
+  --border:rgba(255,255,255,0.1);
+  --font-h:'Barlow Condensed',sans-serif;
+  --font-b:'Barlow',sans-serif;
+  --max:1200px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;gap:40px;
+  padding:0 40px;height:56px;
+  background:rgba(10,10,10,0.96);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.nav-logo{
+  font-family:var(--font-h);font-size:20px;font-weight:800;
+  font-style:italic;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--text);text-decoration:none;flex-shrink:0;
+}
+.nav-links{display:flex;gap:24px;flex:1}
+.nav-links a{
+  font-family:var(--font-b);font-size:13px;font-weight:400;
+  color:var(--text-dim);text-decoration:none;letter-spacing:.02em;
+  transition:color .15s;white-space:nowrap;
+}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-btn-out{
+  background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;
+  font-family:var(--font-b);font-size:13px;font-weight:400;
+  padding:8px 18px;cursor:pointer;letter-spacing:.02em;transition:all .15s;white-space:nowrap;
+}
+.nav-btn-out:hover{border-color:#fff}
+.nav-btn-fill{
+  background:#fff;border:none;color:#000;
+  font-family:var(--font-b);font-size:13px;font-weight:500;
+  padding:8px 18px;cursor:pointer;letter-spacing:.02em;transition:all .15s;white-space:nowrap;
+}
+.nav-btn-fill:hover{background:#e0e0e0}
+
+/* LAYOUT */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 40px}
+section{width:100%}
+
+/* HERO */
+#hero{
+  position:relative;height:100vh;min-height:680px;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 80% at 50% 40%, #2a2a2a 0%, #111010 60%, #080808 100%);
+}
+.hero-dots{
+  position:absolute;inset:0;opacity:.25;
+  background-image:radial-gradient(circle, #fff 1px, transparent 1px);
+  background-size:28px 28px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,var(--bg) 100%)}
+.hero-content{
+  position:relative;z-index:2;text-align:left;
+  padding:0 56px;max-width:640px;
+}
+.hero-eyebrow{
+  font-family:var(--font-b);font-size:13px;font-weight:400;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);
+  margin-bottom:28px;
+}
+.hero-h1{
+  font-family:var(--font-h);font-size:clamp(28px,3vw,44px);font-weight:800;
+  font-style:italic;line-height:1.1;letter-spacing:-.01em;
+  text-transform:uppercase;color:#fff;margin-bottom:14px;
+}
+.hero-sub{
+  font-family:var(--font-b);font-size:17px;font-weight:300;
+  color:var(--text-dim);margin-bottom:8px;
+}
+.hero-sub2{
+  font-family:var(--font-b);font-size:14px;font-weight:300;
+  color:#666;margin-bottom:44px;letter-spacing:.02em;
+}
+/* hero form inline */
+.hero-form{
+  display:flex;flex-direction:column;align-items:stretch;gap:10px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  padding:24px 28px;max-width:360px;width:100%;
+}
+.hero-form-title{
+  font-family:var(--font-h);font-size:16px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid);
+  align-self:flex-start;
+}
+.hero-hint{font-size:12px;color:#555;line-height:1.5;text-align:center}
+
+/* FORMS */
+.f-input{
+  width:100%;background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  color:#fff;font-family:var(--font-b);font-size:15px;
+  padding:13px 16px;outline:none;transition:border-color .15s;
+}
+.f-input::placeholder{color:#555}
+.f-input:focus{border-color:rgba(255,255,255,0.4)}
+.f-btn{
+  width:100%;background:#fff;border:none;color:#000;
+  font-family:var(--font-h);font-size:15px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:14px 24px;cursor:pointer;transition:background .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.f-btn:hover{background:#e0e0e0}
+.f-success{text-align:center;padding:16px 0;width:100%}
+.f-success-icon{font-size:28px;color:#fff;margin-bottom:8px}
+.f-success-title{
+  font-family:var(--font-h);font-size:24px;font-weight:700;
+  text-transform:uppercase;color:#fff;margin-bottom:4px;
+}
+.f-success-sub{font-size:13px;color:var(--text-dim)}
+
+/* TRUST BAR */
+#trust{
+  background:var(--bg2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:0;
+}
+.trust-row{display:grid;grid-template-columns:repeat(4,1fr)}
+.trust-cell{
+  text-align:center;padding:44px 24px;
+  border-right:1px solid var(--border);
+}
+.trust-cell:last-child{border-right:none}
+.trust-n{
+  font-family:var(--font-h);font-size:clamp(48px,4.5vw,72px);
+  font-weight:800;font-style:italic;line-height:1;color:#fff;
+  letter-spacing:-.02em;
+}
+.trust-l{
+  font-size:12px;color:var(--text-dim);
+  letter-spacing:.1em;text-transform:uppercase;margin-top:8px;
+}
+
+/* SLOT COUNTER */
+.slot-counter{display:inline-flex;align-items:baseline;gap:1px;overflow:hidden}
+.slot-digit-wrap{
+  display:inline-block;overflow:hidden;
+  height:1em;line-height:1;vertical-align:baseline;
+  position:relative;
+}
+.slot-digit-inner{
+  display:flex;flex-direction:column;
+  transition:transform 0.55s cubic-bezier(0.22,1,0.36,1);
+  will-change:transform;
+}
+.slot-digit-inner span{
+  display:block;height:1em;line-height:1;
+  text-align:center;
+}
+.slot-sep{
+  display:inline-block;
+  font-family:var(--font-h);font-size:clamp(48px,4.5vw,72px);
+  font-weight:800;font-style:italic;color:#fff;
+  line-height:1;letter-spacing:-.02em;
+  margin:0 1px;
+}
+@keyframes flash-bright{
+  0%{color:#fff;text-shadow:0 0 20px rgba(255,255,255,0.9),0 0 40px rgba(255,255,255,0.4)}
+  100%{color:#fff;text-shadow:none}
+}
+
+/* SECTION HEADER */
+.sec-header{margin-bottom:56px}
+.sec-h2{
+  font-family:var(--font-h);font-size:clamp(40px,4.5vw,64px);
+  font-weight:800;font-style:italic;text-transform:uppercase;
+  letter-spacing:-.01em;line-height:.95;color:#fff;
+}
+.sec-sub{
+  font-size:16px;font-weight:300;color:var(--text-dim);
+  margin-top:12px;max-width:560px;line-height:1.6;
+}
+
+/* TRAININGS */
+#trainings{padding:112px 0;background:var(--bg)}
+.training-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.t-card{background:var(--bg3);padding:28px 22px;display:flex;flex-direction:column;position:relative;overflow:visible}
+.t-badge-top{
+  position:absolute;top:-1px;right:-1px;
+  z-index:2;
+}
+.t-cat{
+  font-family:var(--font-h);font-size:11px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;
+}
+.t-pain{font-size:12px;color:#444;font-style:italic;margin-bottom:18px;line-height:1.4}
+.t-main{padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.t-badge{
+  display:inline-block;font-family:var(--font-h);
+  font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;background:rgba(18,18,18,0.97);
+  border:1px solid rgba(255,255,255,0.6);
+  padding:5px 12px;
+  box-shadow:0 0 8px rgba(255,255,255,0.25),0 0 20px rgba(255,255,255,0.1),inset 0 0 6px rgba(255,255,255,0.03);
+  white-space:nowrap;
+}
+.t-badge:empty{display:none}
+.t-program-name{
+  font-family:var(--font-h);font-size:20px;font-weight:800;
+  font-style:italic;text-transform:uppercase;color:#fff;
+  margin-bottom:7px;line-height:1;
+}
+.t-program-desc{font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:8px}
+.t-program-meta{font-size:11px;color:#444;line-height:1.6}
+.t-also-title{
+  font-size:10px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:#555;margin-bottom:10px;
+}
+.t-also-list{list-style:none;display:flex;flex-direction:row;flex-wrap:wrap;gap:6px}
+.t-also-list li{
+  font-size:11px;color:#bbb;
+  display:flex;align-items:center;
+  padding:4px 10px;
+  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(255,255,255,0.04);
+  letter-spacing:.03em;
+}
+.t-level{display:none}
+
+/* CLUBS */
+#clubs{padding:112px 0;background:var(--bg2)}
+.clubs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:44px}
+.c-card{background:var(--bg3);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s}
+.c-card:hover{transform:translateY(-3px)}
+.c-img{
+  height:260px;overflow:hidden;position:relative;
+  background:var(--bg4);
+  background-image:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.012) 8px,rgba(255,255,255,0.012) 9px);
+}
+.c-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;filter:brightness(.8)}
+.c-card:hover .c-img img{transform:scale(1.04)}
+.c-img-ph{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:12px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:#2a2a2a;
+}
+.c-body{padding:24px 24px 28px;flex:1;display:flex;flex-direction:column}
+.c-name{
+  font-family:var(--font-h);font-size:22px;font-weight:700;
+  font-style:italic;text-transform:uppercase;color:#fff;
+  margin-bottom:4px;line-height:1.1;
+}
+.c-addr{font-size:13px;color:var(--text-dim);margin-bottom:12px}
+.c-desc{font-size:14px;color:var(--text-dim);line-height:1.55;margin-bottom:14px}
+.c-feats{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px}
+.c-feat{
+  font-size:11px;color:var(--text-dim);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:3px 9px;letter-spacing:.03em;
+}
+.c-price-row{
+  display:flex;align-items:baseline;gap:10px;
+  margin-bottom:18px;padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.c-price-main{
+  font-family:var(--font-h);font-size:18px;font-weight:700;color:#fff;
+}
+.c-price-year{font-size:12px;color:var(--text-dim)}
+.c-link{
+  margin-top:auto;font-family:var(--font-h);font-size:13px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  text-decoration:none;display:flex;align-items:center;gap:6px;
+  transition:gap .2s;opacity:.7;
+}
+.c-link:hover{gap:10px;opacity:1}
+.clubs-cta{text-align:center}
+.clubs-cta-hint{font-size:13px;color:var(--text-dim);margin-top:12px}
+.btn-fill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;border:none;color:#000;
+  font-family:var(--font-h);font-size:15px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:15px 36px;cursor:pointer;transition:background .15s;
+}
+.btn-fill:hover{background:#ddd}
+.btn-out-w{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;
+  font-family:var(--font-h);font-size:15px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:15px 36px;cursor:pointer;transition:all .15s;
+}
+.btn-out-w:hover{border-color:#fff}
+
+/* APP */
+#app{padding:112px 0;background:var(--bg)}
+.app-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.app-features{display:flex;flex-direction:column;gap:32px;margin-top:40px}
+.app-feat{display:flex;gap:20px;align-items:flex-start}
+.app-feat-num{
+  font-family:var(--font-h);font-size:18px;font-weight:700;
+  font-style:italic;color:rgba(255,255,255,0.2);flex-shrink:0;padding-top:2px;
+}
+.app-feat-title{
+  font-family:var(--font-h);font-size:20px;font-weight:700;
+  font-style:italic;text-transform:uppercase;color:#fff;
+  margin-bottom:5px;line-height:1;
+}
+.app-feat-text{font-size:14px;color:var(--text-dim);line-height:1.6}
+.app-stores{display:flex;gap:10px;margin-top:28px}
+.store-btn{
+  border:1px solid rgba(255,255,255,0.2);background:transparent;color:var(--text-mid);
+  font-family:var(--font-b);font-size:12px;font-weight:400;letter-spacing:.05em;
+  text-transform:uppercase;padding:10px 20px;cursor:pointer;transition:all .15s;
+}
+.store-btn:hover{border-color:#fff;color:#fff}
+.app-phone{
+  width:240px;height:490px;border:1px solid rgba(255,255,255,0.1);
+  border-radius:32px;background:var(--bg3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  margin:0 auto;position:relative;overflow:hidden;
+  background-image:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.012) 8px,rgba(255,255,255,0.012) 9px);
+}
+.app-phone::before{
+  content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  width:64px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;
+}
+.app-phone-lbl{font-family:var(--font-h);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#2a2a2a}
+
+/* REVIEWS */
+#reviews{padding:112px 0;background:var(--bg2)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.rev-card{background:var(--bg3);padding:32px 28px}
+.rev-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:14px;font-weight:700;
+  color:var(--text-mid);margin-bottom:16px;
+}
+.rev-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:3px}
+.rev-club{font-size:11px;color:var(--text-dim);letter-spacing:.04em;margin-bottom:10px}
+.rev-stars{color:#fff;font-size:13px;letter-spacing:3px;margin-bottom:14px;opacity:.7}
+.rev-text{font-size:14px;color:var(--text-dim);line-height:1.7;font-style:italic}
+
+/* FAQ */
+#faq{padding:112px 0;background:var(--bg)}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:56px}
+.faq-item{border-top:1px solid var(--border)}
+.faq-q{
+  width:100%;background:none;border:none;text-align:left;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+  padding:24px 32px;cursor:pointer;
+  font-family:var(--font-h);font-size:20px;font-weight:700;
+  font-style:italic;text-transform:uppercase;color:#fff;line-height:1.15;
+  transition:color .15s;
+}
+.faq-q:hover{color:#bbb}
+.faq-icon{
+  flex-shrink:0;width:22px;height:22px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:monospace;font-size:15px;color:var(--text-dim);margin-top:2px;
+  transition:all .2s;
+}
+.faq-item.open .faq-icon{background:#fff;border-color:#fff;color:#000}
+.faq-a{overflow:hidden;max-height:0;transition:max-height .3s ease,padding .25s;padding:0 32px}
+.faq-item.open .faq-a{max-height:300px;padding:0 32px 24px}
+.faq-a-inner{
+  font-size:15px;color:var(--text-dim);line-height:1.7;
+  border-left:2px solid rgba(255,255,255,0.2);padding-left:14px;
+}
+
+/* FINAL CTA */
+#final{
+  padding:140px 0;background:var(--bg2);text-align:center;
+  position:relative;overflow:hidden;
+}
+#final::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 800px 500px at 50% 50%,rgba(255,255,255,0.03) 0%,transparent 70%);
+}
+.final-h2{
+  font-family:var(--font-h);font-size:clamp(44px,6vw,84px);
+  font-weight:800;font-style:italic;text-transform:uppercase;
+  line-height:.95;color:#fff;margin-bottom:16px;
+}
+.final-sub{
+  font-size:17px;font-weight:300;color:var(--text-dim);
+  max-width:500px;margin:0 auto 44px;line-height:1.65;
+}
+.final-form{max-width:320px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.final-risks{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:28px;margin-top:24px}
+.risk{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.risk::before{content:'✓';color:#fff;font-size:12px;opacity:.5}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:32px 0;background:var(--bg)}
+.footer-row{display:flex;align-items:center;justify-content:space-between}
+.footer-logo{
+  font-family:var(--font-h);font-size:18px;font-weight:800;
+  font-style:italic;letter-spacing:.04em;text-transform:uppercase;color:#fff;
+  opacity:.4;
+}
+.footer-copy{font-size:12px;color:var(--text-dim)}
+
+/* POPUP */
+.popup-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);animation:fin .25s ease;
+}
+.popup-box{
+  background:var(--bg3);border:1px solid rgba(255,255,255,0.12);
+  padding:40px 32px 32px;max-width:360px;width:90%;
+  position:relative;animation:fup .3s ease;
+}
+.popup-close{
+  position:absolute;top:12px;right:16px;background:none;border:none;
+  color:var(--text-dim);font-size:22px;cursor:pointer;padding:4px;
+  line-height:1;transition:color .15s;
+}
+.popup-close:hover{color:#fff}
+.popup-ey{
+  font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:8px;
+}
+.popup-h{
+  font-family:var(--font-h);font-size:28px;font-weight:800;
+  font-style:italic;text-transform:uppercase;line-height:1.1;color:#fff;margin-bottom:8px;
+}
+.popup-gift{
+  font-size:13px;color:var(--text-dim);
+  border-left:2px solid rgba(255,255,255,0.2);
+  padding-left:12px;margin-bottom:20px;line-height:1.5;
+}
+.popup-form{display:flex;flex-direction:column;gap:10px}
+
+/* FLOATING */
+.float-btn{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:99;
+  background:#fff;color:#000;border:none;
+  font-family:var(--font-h);font-size:14px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:14px 28px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);transition:all .3s;
+}
+.float-btn:hover{background:#ddd}
+.float-btn.off{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(10px)}
+
+/* TWEAKS */
+.tweaks-panel{
+  position:fixed;bottom:24px;right:24px;z-index:200;
+  background:var(--bg3);border:1px solid rgba(255,255,255,0.1);
+  padding:18px 20px;width:220px;
+  box-shadow:0 16px 48px rgba(0,0,0,.7);animation:fup .25s ease;
+}
+.tw-title{
+  font-family:var(--font-h);font-size:12px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;
+}
+.tw-row{margin-bottom:12px}
+.tw-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.tw-sel{
+  width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  color:#fff;font-family:var(--font-b);font-size:12px;padding:7px 10px;outline:none;cursor:pointer;
+}
+.tw-toggle{display:flex;gap:5px}
+.tw-toggle button{
+  flex:1;padding:7px;font-size:11px;font-family:var(--font-h);font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--border);background:transparent;color:var(--text-dim);
+  cursor:pointer;transition:all .15s;
+}
+.tw-toggle button.on{background:#fff;color:#000;border-color:#fff}
+
+@keyframes fin{from{opacity:0}to{opacity:1}}
+@keyframes fup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:0 20px;gap:20px}
+  .nav-links{display:none}
+  .wrap{padding:0 20px}
+  .trust-row{grid-template-columns:repeat(2,1fr)}
+  .trust-cell:nth-child(2){border-right:none}
+  .trust-cell{border-bottom:1px solid var(--border)}
+  .training-grid{grid-template-columns:1fr 1fr}
+  .clubs-grid{grid-template-columns:1fr}
+  .app-grid{grid-template-columns:1fr}
+  .app-phone{order:-1}
+  .rev-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:2px;padding-bottom:4px}
+  .rev-card{min-width:82vw;scroll-snap-align:start}
+  .faq-grid{grid-template-columns:1fr}
+  .footer-row{flex-direction:column;gap:10px;text-align:center}
+  .tweaks-panel{display:none}
+}
+@media(max-width:560px){
+  .training-grid{grid-template-columns:1fr}
+  .hero-h1{font-size:52px}
+}
+</style>
+<meta name="ext-resource-dependency" content="https://cdn.entryx.io/rt:fill/f:webp/plain/s3://invictus-clubs-photos/Gagarina/main.jpg" data-resource-id="imgGagarin" />
+<meta name="ext-resource-dependency" content="https://cdn.entryx.io/rt:fill/f:webp/plain/s3://invictus-clubs-photos/Sadu/Sadu2.jpg" data-resource-id="imgSadu" />
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+
+
+
+
+
+const { useState, useEffect, useRef } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "badge": "A",
+  "heroSub": "Фитнес, достойный вашего времени.",
+  "ctaText": "Записаться на экскурсию"
+} /*EDITMODE-END*/;
+
+const BADGE_VARIANTS = {
+  A: { main: "Подходит 70% атлетов", alt: "", pwr: "", start: "Начните отсюда" },
+  B: { main: "Выбор большинства", alt: "Выбор большинства", pwr: "", start: "Начните отсюда" },
+  C: { main: "Начни отсюда", alt: "", pwr: "", start: "Начните отсюда" }
+};
+
+function LeadForm({ btnText = "Записаться →" }) {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [ok, setOk] = useState(false);
+  const submit = (e) => {e.preventDefault();if (name.trim() && phone.trim()) setOk(true);};
+  if (ok) return (
+    <div className="f-success">
+      <div className="f-success-icon">✓</div>
+      <div className="f-success-title">Заявка принята</div>
+      <div className="f-success-sub">Менеджер свяжется с вами в течение 15 минут</div>
+    </div>);
+
+  return (
+    <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+      <input className="f-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваше имя" required />
+      <input className="f-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+7 ___ ___ __ __" type="tel" required />
+      <button type="submit" className="f-btn">{btnText}</button>
+    </form>);
+
+}
+
+const TRAININGS = [
+{ cat: 'Функциональные', pain: '"Хочу быть в форме, но не знаю с чего начать"', badge: 'main',
+  program: { name: 'INVICTUS BOOTCAMP', desc: 'Кардио + силовая в одном. Делает вас сильнее, выносливее и сжигает максимум калорий.', meta: '' },
+  also: [['HIIT', 'сложный'], ['Cross Training', 'средний'], ['Cross Training on Ramp', 'средний'], ['Metcon Boxing', 'сложный']] },
+{ cat: 'Восстановление', pain: '"Идеально в промежутках между силовыми"', badge: 'start',
+  program: { name: 'STRETCHING', desc: 'Снимает напряжение, улучшает подвижность суставов и осанку. Подходит после любой тренировки.', meta: '' },
+  also: [['Pilates mat', 'лёгкий'], ['Prenatal', 'лёгкий'], ['Yoga', 'лёгкий']] },
+{ cat: 'Кардио', pain: '"Улучшить выносливость без нагрузки на колени"', badge: 'alt',
+  program: { name: 'CYCLE', desc: 'Велотренировка под музыку в тёмном зале. Сжигает до 700 ккал за занятие. Никакой скуки.', meta: '' },
+  also: [['Zumba', 'лёгкий'], ['Boxing', 'средний'], ['Aqua Fitness', 'лёгкий']] },
+{ cat: 'Силовые', pain: '"Техника, прогрессия и тренер рядом"', badge: 'pwr',
+  program: { name: 'INVICTUS STRONG', desc: 'Базовые упражнения со свободными весами и штангой. Строит силу и объём мышц.', meta: '' },
+  also: [['Core', 'средний'], ["Men's Boxing", 'сложный'], ['TRX', 'средний']] }];
+
+
+const CLUBS = [
+{ name: 'Invictus Fitness Gagarin', addr: 'пр. Гагарина, 286',
+  desc: 'Клуб в сердце Бостандыкского района. 20+ групповых тренировок, зона бокса и сауна. Оборудование Technogym.',
+  feats: ['Technogym', 'Групповые', 'Зона бокса', 'Сауна'],
+  price: 'от 23 333 ₸/мес', year: '280 000 ₸/год',
+  img: window.__resources?.imgGagarin || 'https://cdn.entryx.io/rt:fill/f:webp/plain/s3://invictus-clubs-photos/Gagarina/main.jpg',
+  link: 'https://invictus.kz/ru-kz/clubs/fitness/fitness-gagarin' },
+{ name: 'Invictus Fitness Samal', addr: 'мкрн. Самал-1, ул. Жолдасбекова 9а',
+  desc: 'Единственный клуб в Алматы с зоной кроссфита. Плюс сауна, Technogym и персональные тренировки.',
+  feats: ['Technogym', 'Кроссфит', 'Персональные', 'Сауна'],
+  price: 'от 29 167 ₸/мес', year: '350 000 ₸/год',
+  img: '', link: 'https://invictus.kz/ru-kz/clubs' },
+{ name: 'Invictus Fitness Sadu', addr: 'Аль-Фараби 128/7',
+  desc: '7 000 м² пространства. Бассейн 7 дорожек, пилатес на реформерах, зона бокса, Cycle.',
+  feats: ['Бассейн 7 дорожек', '2300 м² зал', 'Пилатес на реформерах', 'Зона бокса', 'Cycle', 'Парковка'],
+  price: '', year: '850 000₸/год',
+  img: window.__resources?.imgSadu || 'https://cdn.entryx.io/rt:fill/f:webp/plain/s3://invictus-clubs-photos/Sadu/Sadu2.jpg',
+  link: 'https://invictus.kz/ru-kz/clubs/fitness/fitness-sadu' }];
+
+
+const REVIEWS = [
+{ ini: 'АМ', name: 'Алия М., 32', club: 'Fitness Sadu', text: 'Хожу уже 1,5 года. Бассейн чистый, очередей нет — это для меня было главным. Тренер Нурлан помог выстроить программу с нуля после перерыва.' },
+{ ini: 'ДК', name: 'Дамир К., 38', club: 'Fitness Gagarin', text: 'Несколько клубов пробовал в городе. Здесь другой уровень — оборудование, раздевалки, отношение персонала. Оправдывает каждый тенге.' },
+{ ini: 'АТ', name: 'Айгерим Т., 27', club: 'Fitness Samal', text: 'Записалась на экскурсию — менеджер перезвонил через 10 минут. На следующий день уже тренировалась. Групповые занятия — отдельный кайф.' }];
+
+
+const FAQS = [
+{ q: 'Я давно не тренировался. С чего начать?', a: 'С нас. Менеджер покажет клуб, узнает вашу цель и предложит с чего начать — групповые классы или работу с персональным тренером. Никакой самостоятельной навигации с первого дня.' },
+{ q: 'Что если понадобится взять паузу?', a: 'Абонемент можно заморозить на срок до 90 дней в году — бесплатно. Оформляется через приложение за минуту.' },
+{ q: 'Можно ли ходить во все три клуба?', a: 'Абонемент оформляется в один клуб. При покупке годового абонемента вы получаете гостевые посещения в другие филиалы сети Invictus Fitness.' },
+{ q: 'Что будет на экскурсии?', a: 'Тур по всем зонам клуба — тренажёрный зал, бассейн, SPA, студии групповых. Занимает около 40 минут. Без обязательств.' }];
+
+
+function LiveCounter() {
+  const [count, setCount] = useState(8253);
+
+  useEffect(() => {
+    const tick = () => {
+      const delta = Math.floor(Math.random() * 13) - 4;
+      setCount(prev => {
+        const next = prev + delta;
+        if (next < 8190) return 8190 + Math.floor(Math.random() * 5);
+        if (next > 8500) return 8500 - Math.floor(Math.random() * 5);
+        return next;
+      });
+      setTimeout(tick, 4000 + Math.random() * 6000);
+    };
+    const t = setTimeout(tick, 4000 + Math.random() * 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  return <span>{count.toLocaleString('ru-RU')}</span>;
+}
+
+function App() {
+  const [popup, setPopup] = useState(false);
+  const [floatOn, setFloatOn] = useState(false);
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+  const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
+  const [openFaq, setOpenFaq] = useState(null);
+  const heroRef = useRef(null);
+  const finalRef = useRef(null);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('inv_pop')) return;
+    const t = setTimeout(() => {setPopup(true);sessionStorage.setItem('inv_pop', '1');}, 25000);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.target === heroRef.current || e.target === finalRef.current) {
+          if (e.isIntersecting) setFloatOn(false);
+        } else {
+          setFloatOn(true);
+        }
+      });
+    }, { threshold: .4 });
+    if (heroRef.current) obs.observe(heroRef.current);
+    if (finalRef.current) obs.observe(finalRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Simpler float logic based on scroll
+  useEffect(() => {
+    const check = () => {
+      const heroBottom = heroRef.current?.getBoundingClientRect().bottom ?? 0;
+      const finalTop = finalRef.current?.getBoundingClientRect().top ?? 9999;
+      const vh = window.innerHeight;
+      const inHero = heroBottom > vh * .3;
+      const inFinal = finalTop < vh * .8;
+      setFloatOn(!inHero && !inFinal);
+    };
+    window.addEventListener('scroll', check, { passive: true });
+    check();
+    return () => window.removeEventListener('scroll', check);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweaksOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksOpen(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  const setTweak = (k, v) => {
+    const next = { ...tweaks, [k]: v };
+    setTweaks(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*');
+  };
+
+  const bv = BADGE_VARIANTS[tweaks.badge] || BADGE_VARIANTS.A;
+  const scrollToFinal = () => finalRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+  return <>
+    {/* NAV */}
+    <nav>
+      <a href="#" className="nav-logo">Invictus</a>
+      <div className="nav-links">
+        <a href="#clubs">Клубы</a>
+        <a href="#trainings">Тренировки</a>
+        <a href="#app">Приложение</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div className="nav-right">
+        <button className="nav-btn-out" onClick={scrollToFinal}>Оставить заявку</button>
+        <button className="nav-btn-fill" onClick={scrollToFinal}>Записаться</button>
+      </div>
+    </nav>
+
+    {/* HERO */}
+    <section id="hero" ref={heroRef}>
+      <div className="hero-bg" />
+      <div className="hero-dots" />
+      <div className="hero-overlay" />
+      <div className="hero-content">
+        <div className="hero-eyebrow">Алматы · Казахстан</div>
+        <h1 className="hero-h1">Премиальные фитнес-клубы в Алматы</h1>
+        <p className="hero-sub">{tweaks.heroSub}</p>
+        <p className="hero-sub2">
+</p>
+        <div className="hero-form">
+          <div className="hero-form-title">
+</div>
+          <LeadForm btnText={`${tweaks.ctaText} →`} />
+          <p className="hero-hint">Менеджер подберёт клуб по локации и согласует время</p>
+        </div>
+      </div>
+    </section>
+
+    {/* TRUST */}
+    <section id="trust">
+      <div className="trust-row">
+        {[['10', 'лет на рынке'], ['11', 'клубов по Казахстану'], [null, 'атлетов'], ['3', 'клуба в Алматы']].map(([n, l]) => <div key={l} className="trust-cell">
+            <div className="trust-n">{n === null ? <LiveCounter /> : n}</div>
+            <div className="trust-l">{l}</div>
+          </div>)}
+      </div>
+    </section>
+
+    {/* TRAININGS */}
+    <section id="trainings">
+      <div className="wrap">
+        <div className="sec-header">
+          <h2 className="sec-h2">Найдите свою тренировку</h2>
+          <p className="sec-sub">Любой уровень. Любая цель. Попробуйте то, с чего начинает большинство.</p>
+        </div>
+        <div className="training-grid">
+          {TRAININGS.map((t, i) =>
+          <div key={i} className="t-card">
+              {bv[t.badge] && <div className="t-badge-top"><div className="t-badge">{bv[t.badge]}</div></div>}
+              <div className="t-cat">{t.cat}</div>
+              <div className="t-pain">{t.pain}</div>
+              <div className="t-main">
+                <div className="t-program-name">{t.program.name}</div>
+                <div className="t-program-desc">{t.program.desc}</div>
+                <div className="t-program-meta">{t.program.meta.split('\n').map((l, j) => <div key={j}>{l}</div>)}</div>
+              </div>
+              <div className="t-also-title">Также в категории</div>
+              <ul className="t-also-list">
+                {t.also.map(([nm, lvl]) =>
+              <li key={nm}><span>{nm}</span></li>
+              )}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    {/* GROUP TRAININGS */}
+    <section id="group-trainings" style={{ background: 'var(--bg2)', padding: '96px 0', borderTop: '1px solid var(--border)' }}>
+      <div className="wrap">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
+          <div style={{ background: 'var(--bg3)', padding: '48px 40px' }}>
+            <div style={{ fontFamily: 'var(--font-h)', fontSize: 11, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: 12 }}>Групповые тренировки</div>
+            <div style={{ fontFamily: 'var(--font-h)', fontSize: 'clamp(32px,3vw,48px)', fontWeight: 800, fontStyle: 'italic', textTransform: 'uppercase', color: '#fff', lineHeight: .95, marginBottom: 16 }}>Более 100<br />занятий<br />в неделю</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
+              {['Yoga', 'Cycle', 'HIIT', 'Pilates', 'Zumba', '+25'].map((tag) =>
+              <span key={tag} style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'var(--text-dim)', fontSize: 12, padding: '4px 12px', letterSpacing: '.04em' }}>{tag}</span>
+              )}
+            </div>
+            <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.6, maxWidth: 380 }}>Форматы для любого уровня и цели — от силовых до восстановительных. Запись через приложение за 1 секунду.</p>
+          </div>
+          <div style={{ background: 'var(--bg4)', padding: '48px 40px', borderLeft: '2px solid rgba(255,255,255,0.04)' }}>
+            <div style={{ fontFamily: 'var(--font-h)', fontSize: 11, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: 12 }}>Персональные тренировки</div>
+            <div style={{ fontFamily: 'var(--font-h)', fontSize: 'clamp(32px,3vw,48px)', fontWeight: 800, fontStyle: 'italic', textTransform: 'uppercase', color: '#fff', lineHeight: .95, marginBottom: 16 }}>Тренер, который<br />знает вашу цель</div>
+            <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.6, maxWidth: 380, marginBottom: 20 }}>Средний стаж в клубе — 4 года. Индивидуальный подход, измеримый результат.</p>
+            <button className="btn-fill" onClick={scrollToFinal} style={{ fontSize: 13, padding: '12px 28px' }}>Записаться →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* CLUBS */}
+    <section id="clubs">
+      <div className="wrap">
+        <div className="sec-header">
+          <h2 className="sec-h2">Три адреса.<br />Один стандарт.</h2>
+          <p className="sec-sub">Каждый клуб построен по единым требованиям к оборудованию, сервису и инфраструктуре. Менеджер подберёт ближайший к вам.</p>
+        </div>
+        <div className="clubs-grid">
+          {CLUBS.map((c, i) =>
+          <div key={i} className="c-card">
+              <div className="c-img">
+                {c.img && <img src={c.img} alt={c.name} onError={(e) => e.target.style.display = 'none'} />}
+                <div className="c-img-ph">Фото · {c.name.split(' ').slice(-1)[0]}</div>
+              </div>
+              <div className="c-body">
+                <div className="c-name">{c.name}</div>
+                <div className="c-addr">{c.addr}</div>
+                <div className="c-desc">{c.desc}</div>
+                <div className="c-feats">{c.feats.map((f) => <span key={f} className="c-feat">{f}</span>)}</div>
+                <div className="c-price-row">
+                  {c.price && <span className="c-price-main">{c.price}</span>}
+                  <span className="c-price-year">{c.year}</span>
+                </div>
+                <a href={c.link} target="_blank" rel="noopener" className="c-link">
+</a>
+              </div>
+            </div>)}
+        </div>
+        <div className="clubs-cta">
+          <button className="btn-fill" onClick={scrollToFinal}>Оставить заявку — подберём ближайший клуб →</button>
+          <p className="clubs-cta-hint">Не нужно выбирать самому. Менеджер уточнит ваш район и предложит оптимальный вариант.</p>
+        </div>
+      </div>
+    </section>
+
+    {/* APP */}
+    <section id="app">
+      <div className="wrap">
+        <div className="app-grid">
+          <div>
+            <h2 className="sec-h2">Приложение Invictus</h2>
+            <p className="sec-sub">Загруженность зала в реальном времени. Запись на групповые. InBody. Магазин. Всё в одном месте.</p>
+            <div className="app-features">
+              {[
+              ['01', 'Знайте, когда прийти', 'Смотрите в реальном времени, сколько человек сейчас в зале. Приходите тогда, когда свободно.'],
+              ['02', 'Запись за одно нажатие', 'Расписание всех групповых, запись и отмена — без звонков. Напоминание придёт автоматически.'],
+              ['03', 'Invictus — не только зал', 'Invictus Store, спортпит, медицинские анализы и InBody. Клуб работает за рамками тренировки.']].
+              map(([n, title, text]) =>
+              <div key={n} className="app-feat">
+                  <div className="app-feat-num">{n}</div>
+                  <div>
+                    <div className="app-feat-title">{title}</div>
+                    <div className="app-feat-text">{text}</div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="app-stores">
+              <button className="store-btn">APP TORE</button>
+              <button className="store-btn">
+</button>
+            </div>
+          </div>
+          <div>
+            <div className="app-phone">
+              <div className="app-phone-lbl">Мокап приложения</div>
+              <div className="app-phone-lbl" style={{ fontSize: 9, opacity: .4 }}>загруженность зала</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* REVIEWS */}
+    <section id="reviews">
+      <div className="wrap">
+        <div className="sec-header">
+          <h2 className="sec-h2">Говорят атлеты</h2>
+        </div>
+        <div className="rev-grid">
+          {REVIEWS.map((r, i) => <div key={i} className="rev-card">
+              <div className="rev-avatar">{r.ini}</div>
+              <div className="rev-name">{r.name}</div>
+              <div className="rev-club">Клуб: Invictus {r.club}</div>
+              <div className="rev-stars">★★★★★</div>
+              <p className="rev-text">«{r.text}»</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    {/* FAQ */}
+    <section id="faq">
+      <div className="wrap">
+        <h2 className="sec-h2">Частые вопросы</h2>
+        <div className="faq-grid">
+          {FAQS.map((f, i) =>
+          <div key={i} className={`faq-item${openFaq === i ? ' open' : ''}`}>
+              <button className="faq-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <span>{f.q}</span>
+                <span className="faq-icon">{openFaq === i ? '−' : '+'}</span>
+              </button>
+              <div className="faq-a">
+                <div className="faq-a-inner">{f.a}</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    {/* FINAL CTA */}
+    <section id="final" ref={finalRef}>
+      <div className="wrap">
+        <h2 className="final-h2">Посмотрите —<br />и решите сами.</h2>
+        <p className="final-sub">Оставьте заявку на экскурсию. Менеджер перезвонит за 15 минут и подберёт клуб рядом с домом или работой.</p>
+        <div className="final-form">
+          <LeadForm btnText={`${tweaks.ctaText} →`} />
+        </div>
+        <div className="final-risks">
+          <span className="risk">Без предоплаты</span>
+          <span className="risk">Без обязательств</span>
+          <span className="risk"></span>
+        </div>
+      </div>
+    </section>
+
+    {/* FOOTER */}
+    <footer>
+      <div className="wrap">
+        <div className="footer-row">
+          <div className="footer-logo">Invictus Fitness</div>
+          <div className="footer-copy">© 2026 ТОО Invictus Fitness · Алматы</div>
+        </div>
+      </div>
+    </footer>
+
+    {/* POPUP */}
+    {popup &&
+    <div className="popup-bg" onClick={(e) => e.target === e.currentTarget && setPopup(false)}>
+        <div className="popup-box">
+          <button className="popup-close" onClick={() => setPopup(false)}>×</button>
+          <div className="popup-ey">Пока вы смотрите</div>
+          <div className="popup-h">Запишитесь на бесплатную экскурсию</div>
+          <div className="popup-gift">В подарок — замер InBody</div>
+          <div className="popup-form"><LeadForm btnText="Хочу экскурсию →" /></div>
+        </div>
+      </div>
+    }
+
+    {/* FLOATING */}
+    <button className={`float-btn${floatOn ? '' : ' off'}`} onClick={scrollToFinal}>
+      {tweaks.ctaText} →
+    </button>
+
+    {/* TWEAKS */}
+    {tweaksOpen &&
+    <div className="tweaks-panel">
+        <div className="tw-title">Tweaks</div>
+        <div className="tw-row">
+          <div className="tw-label">Бейдж (A/B тест)</div>
+          <div className="tw-toggle">
+            {['A', 'B', 'C'].map((v) =>
+          <button key={v} className={tweaks.badge === v ? 'on' : ''} onClick={() => setTweak('badge', v)}>{v}</button>
+          )}
+          </div>
+        </div>
+        <div className="tw-row">
+          <div className="tw-label">Подзаголовок</div>
+          <select className="tw-sel" value={tweaks.heroSub} onChange={(e) => setTweak('heroSub', e.target.value)}>
+            <option>Фитнес, достойный вашего времени.</option>
+            <option>Оборудование Technogym. Тренеры с опытом.</option>
+            <option>Не просто зал. Среда для роста.</option>
+          </select>
+        </div>
+        <div className="tw-row">
+          <div className="tw-label">Текст кнопок</div>
+          <select className="tw-sel" value={tweaks.ctaText} onChange={(e) => setTweak('ctaText', e.target.value)}>
+            <option>Записаться на экскурсию</option>
+            <option>Оставить заявку</option>
+            <option>Хочу в клуб</option>
+          </select>
+        </div>
+      </div>
+    }
+  </>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="80" fill="#111010"/>
+  <rect x="0" y="0" width="120" height="12" fill="#0a0a0a"/>
+  <text x="10" y="8.5" fill="#fff" font-size="6" font-family="sans-serif" font-weight="bold" font-style="italic">INVICTUS</text>
+  <text x="36" y="44" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif" font-weight="bold" font-style="italic">ПРЕМИАЛЬНЫЕ</text>
+  <text x="60" y="54" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif" font-weight="bold" font-style="italic">ФИТНЕС-КЛУБЫ</text>
+  <rect x="35" y="62" width="50" height="7" fill="#fff" rx="1"/>
+  <text x="60" y="67.5" text-anchor="middle" fill="#000" font-size="4.5" font-family="sans-serif" font-weight="bold">ЗАПИСАТЬСЯ</text>
+</svg>
+</template>
+</body>
+</html>
